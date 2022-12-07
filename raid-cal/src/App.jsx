@@ -95,6 +95,11 @@ const App = () => {
     setItems(newArray);
   };
 
+  const onClickRemoveData = () => {
+    localStorage.removeItem("data");
+    window.location.reload(false);
+  };
+
   const calValue = () => {
     let calu = 0;
     let calr = 0;
@@ -169,6 +174,7 @@ const App = () => {
             ใช้ไป {total.u.toLocaleString()} - ได้คืน {total.r.toLocaleString()}
           </p>
           <button
+            onClick={onClickRemoveData}
             className={`${
               value > 0
                 ? "bg-green-500"
@@ -180,6 +186,7 @@ const App = () => {
             {value > 0 ? "คุ้ม" : value == 0 ? "เท่าทุน" : "ไม่คุ้ม"}
           </button>
         </div>
+        <span className="text-md flex justify-center mt-3">กดปุ่มเพื่อล้างค่า</span>
       </div>
     </>
   );
