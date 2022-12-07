@@ -138,41 +138,38 @@ const App = () => {
         {items.map((item, index) => (
           <div key={index}>
             <div className="grid grid-cols-4 items-center">
-              <label className="block text-gray-500 font-bold">
+              <label className="block text-gray-500 font-bold col-start-auto">
                 {item.title}
               </label>
               <img
-                className="max-w-[65px] mx-2"
+                className="max-w-[65px] mx-2 col-span-auto"
                 src={item.pic}
                 alt={item.title}
               />
-              <div>
-                <input
-                  className="shadow appearance-none border rounded w-80 py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  defaultValue={item.use}
-                  type="number"
-                  value={item.use}
-                  onChange={updateState(index, "use")}
-                />
-                <p className="text-red-500 text-xs italic"></p>
-              </div>
 
-              <div>
-                <input
-                  className="shadow appearance-none border rounded w-80 py-3 m-4 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  defaultValue={item.receive}
-                  type="number"
-                  value={item.receive}
-                  onChange={updateState(index, "receive")}
-                />
-              </div>
+              <input
+                className="col-span-auto shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                defaultValue={item.use}
+                type="number"
+                value={item.use}
+                onChange={updateState(index, "use")}
+              />
+
+              <input
+                className="shadow col-end-auto appearance-none border rounded w-full py-3 m-4 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                defaultValue={item.receive}
+                type="number"
+                value={item.receive}
+                onChange={updateState(index, "receive")}
+              />
             </div>
           </div>
         ))}
         <div className="text-center font-bold text-5xl">
-          <p>
-            ใช้ไป {total.u.toLocaleString()} - ได้คืน {total.r.toLocaleString()}
-          </p>
+          <div className="flex justify-around">
+            <p>ใช้ไป {total.u.toLocaleString()}</p>
+            <p>ได้คืน {total.r.toLocaleString()}</p>
+          </div>
           <button
             onClick={onClickRemoveData}
             className={`${
@@ -186,7 +183,9 @@ const App = () => {
             {value > 0 ? "คุ้ม" : value == 0 ? "เท่าทุน" : "ไม่คุ้ม"}
           </button>
         </div>
-        <span className="text-md flex justify-center mt-3">กดปุ่มเพื่อล้างค่า</span>
+        <span className="text-md flex justify-center mt-3">
+          กดปุ่มเพื่อล้างค่า
+        </span>
       </div>
     </>
   );
