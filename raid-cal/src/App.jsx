@@ -192,7 +192,7 @@ const App = () => {
         </div>
       </div>
 
-      <div className="sm:container mx-auto my-3">
+      <div className="sm:container mx-auto my-3 block text-gray-500 font-bold col-start-auto">
         <ul className="grid grid-cols-6 items-center w-12/12 my-3">
           <li className="text-center">จำนวนที่มี</li>
           <li className="text-start">ชื่อ</li>
