@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import sulfur from "./assets/rust/sulfur.png";
 import rocket from "./assets/rust/ammo.rocket.basic.png";
 import ammoExplosive from "./assets/rust/ammo.rifle.explosive.png";
@@ -17,6 +17,7 @@ const INITIAILZE = [
     title: "Rocket",
     pic: rocket,
     multiplier: 700,
+    available: 0,
   },
   {
     use: 0,
@@ -24,6 +25,7 @@ const INITIAILZE = [
     title: "Timed Explosive Charge(C4)",
     pic: c4,
     multiplier: 1100,
+    available: 0,
   },
   {
     use: 0,
@@ -31,6 +33,7 @@ const INITIAILZE = [
     title: "Explosive 5.56 Rifle Ammo",
     pic: ammoExplosive,
     multiplier: 12.5,
+    available: 0,
   },
   {
     use: 0,
@@ -38,6 +41,7 @@ const INITIAILZE = [
     title: "Beancan Grenade",
     pic: beancan,
     multiplier: 90,
+    available: 0,
   },
   {
     use: 0,
@@ -45,6 +49,7 @@ const INITIAILZE = [
     title: "Sulfur",
     pic: sulfur,
     multiplier: 0.5,
+    available: 0,
   },
   {
     use: 0,
@@ -52,6 +57,7 @@ const INITIAILZE = [
     title: "Gun Powder",
     pic: gunpowder,
     multiplier: 1,
+    available: 0,
   },
   {
     use: 0,
@@ -59,6 +65,7 @@ const INITIAILZE = [
     title: "Satchel Charge",
     pic: satchel,
     multiplier: 240,
+    available: 0,
   },
   {
     use: 0,
@@ -66,6 +73,7 @@ const INITIAILZE = [
     title: "High Velocity Rocket",
     pic: rocketHV,
     multiplier: 100,
+    available: 0,
   },
   {
     use: 0,
@@ -73,20 +81,59 @@ const INITIAILZE = [
     title: "Explosives",
     pic: explosives,
     multiplier: 55,
+    available: 0,
   },
 ];
 const App = () => {
   const [items, setItems] = useState([]);
   const [total, setTotal] = useState({ u: 0, r: 0 });
 
+  const dragItem = useRef(null);
+  const dragOverItem = useRef(null);
+
+  //const handle drag sorting
+  const handleSort = () => {
+    //duplicate items
+    let _items = [...items];
+    console.log(_items);
+
+    //remove and save the dragged item content
+    const draggedItemContent = _items.splice(dragItem.current, 1)[0];
+
+    //switch the position
+    _items.splice(dragOverItem.current, 0, draggedItemContent);
+
+    //reset the position ref
+    dragItem.current = null;
+    dragOverItem.current = null;
+
+    //update the actual array
+    setItems(_items);
+  };
+
   const updateState = (index, j) => (e) => {
     const newArray = items.map((item, i) => {
       if (index === i && j === "use") {
-        return { ...item, use: parseInt(e.target.value ? e.target.value : 0) };
+        return {
+          ...item,
+          use: Math.abs(parseInt(e.target.value ? e.target.value : 0)),
+        };
       } else if (index === i && j === "receive") {
         return {
           ...item,
-          receive: parseInt(e.target.value ? e.target.value : 0),
+          receive: Math.abs(parseInt(e.target.value ? e.target.value : 0)),
+        };
+      } else if (index === i && j === "available") {
+        return {
+          ...item,
+          available: Math.abs(parseInt(e.target.value ? e.target.value : 0)),
+        };
+      } else if (index === i && j === "all") {
+        return {
+          ...item,
+          available: 0,
+          receive: 0,
+          use: 0,
         };
       } else {
         return item;
@@ -97,7 +144,18 @@ const App = () => {
 
   const onClickRemoveData = () => {
     localStorage.removeItem("data");
-    window.location.reload(false);
+    const newArray = items.map((item, i) => {
+		return {
+			use: 0,
+			receive: 0,
+			available: 0,
+			title: item.title,
+			pic: item.pic,
+			multiplier: item.multiplier,
+		}
+    });
+    setItems(newArray);
+    localStorage.setItem("data", JSON.stringify(items));
   };
 
   const calValue = () => {
@@ -135,20 +193,47 @@ const App = () => {
       </div>
 
       <div className="sm:container mx-auto my-3">
+        <ul className="grid grid-cols-6 items-center w-12/12 my-3">
+          <li className="text-center">จำนวนที่มี</li>
+          <li className="text-start">ชื่อ</li>
+          <li className="text-center flex">
+            <p className="mx-5">รูป</p>
+            <p>จำนวนที่เหลือ</p>
+          </li>
+          <li className="text-center">จำนวนที่ใช้</li>
+          <li className="text-center">จำนวนที่ได้คืน</li>
+        </ul>
+
         {items.map((item, index) => (
-          <div key={index}>
-            <div className="grid grid-cols-4 items-center">
+          <div
+            key={index}
+            onDragStart={(e) => (dragItem.current = index)}
+            onDragEnter={(e) => (dragOverItem.current = index)}
+            onDragEnd={handleSort}
+            onDragOver={(e) => e.preventDefault()}
+            draggable
+          >
+            <div className="grid grid-cols-6 items-center">
+              <input
+                className="shadow appearance-none border rounded w-auto py-3 m-4 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                defaultValue={item.available}
+                type="number"
+                value={item.available}
+                onChange={updateState(index, "available")}
+              />
               <label className="block text-gray-500 font-bold col-start-auto">
                 {item.title}
               </label>
-              <img
-                className="max-w-[65px] mx-2 col-span-auto"
-                src={item.pic}
-                alt={item.title}
-              />
-
+              <div className="flex items-center">
+                <img
+                  className="max-w-[65px] mx-2 col-span-auto"
+                  src={item.pic}
+                  alt={item.title}
+                />
+                <p className="ml-3">เหลือ = {item.available - item.use}</p>
+              </div>
               <input
-                className="col-span-auto shadow appearance-none border rounded w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="col-span-auto shadow appearance-none border rounded w-auto py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 defaultValue={item.use}
                 type="number"
                 value={item.use}
@@ -156,7 +241,7 @@ const App = () => {
               />
 
               <input
-                className="shadow col-end-auto appearance-none border rounded w-full py-3 m-4 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="shadow col-end-auto appearance-none border rounded w-auto py-3 m-4 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 defaultValue={item.receive}
                 type="number"
                 value={item.receive}
@@ -180,7 +265,11 @@ const App = () => {
                 : "bg-red-500"
             } text-white font-bold py-2 px-4 rounded mt-5`}
           >
-            {value > 0 ? "คุ้ม" : value == 0 ? "เท่าทุน" : "ไม่คุ้ม"}
+            {value > 0
+              ? `คุ้ม ${value.toLocaleString()}`
+              : value == 0
+              ? "เท่าทุน"
+              : `ไม่คุ้ม ${value.toLocaleString()}`}
           </button>
         </div>
         <span className="text-md flex justify-center mt-3">
