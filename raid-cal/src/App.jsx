@@ -158,7 +158,7 @@ const App = () => {
             onDragOver={(e) => e.preventDefault()}
             draggable
           >
-            <div className="grid grid-cols-6 items-center">
+            <div className="grid grid-cols-6 items-center cursor-move">
               <div className="flex items-center">
                 <p
                   onClick={() => onClickRemoveData(index)}
@@ -183,7 +183,7 @@ const App = () => {
                 onChange={updateState(index, "left")}
               />
 
-              <label className="block text-gray-500 font-bold col-start-auto">
+              <label className="block text-gray-500 font-bold col-start-auto cursor-move">
                 {item.title}
               </label>
               <div className="flex items-center">
