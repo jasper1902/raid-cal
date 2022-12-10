@@ -22,7 +22,7 @@ const App = () => {
   const updateState = (index, j) => (e) => {
     const newArray = items.map((item, i) => {
       if (index === i && j === "use") {
-        let use = (parseInt(e.target.value ? e.target.value : 0));
+        let use = parseInt(e.target.value ? e.target.value : 0);
         return {
           ...item,
           use: use,
@@ -31,17 +31,17 @@ const App = () => {
       } else if (index === i && j === "receive") {
         return {
           ...item,
-          receive: (parseInt(e.target.value ? e.target.value : 0)),
+          receive: parseInt(e.target.value ? e.target.value : 0),
         };
       } else if (index === i && j === "available") {
-        let available = (parseInt(e.target.value ? e.target.value : 0));
+        let available = parseInt(e.target.value ? e.target.value : 0);
         return {
           ...item,
           available: available,
           use: available - item.left,
         };
       } else if (index === i && j === "left") {
-        let left = (parseInt(e.target.value ? e.target.value : 0));
+        let left = parseInt(e.target.value ? e.target.value : 0);
         return {
           ...item,
           left: left,
@@ -81,6 +81,23 @@ const App = () => {
     setTotal({ u: calu, r: calr });
   };
 
+  const setLeftHandler = () => {
+    localStorage.removeItem("itemdata");
+    const newArray = items.map((item, i) => {
+      return {
+        use: 0,
+        receive: 0,
+        available: item.left,
+        title: item.title,
+        pic: item.pic,
+        multiplier: item.multiplier,
+        left: 0,
+      };
+    });
+    setItems(newArray);
+    localStorage.setItem("itemdata", JSON.stringify(items));
+  };
+
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem("itemdata"));
     if (!data) {
@@ -91,7 +108,8 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    if (items.length > 1) localStorage.setItem("itemdata", JSON.stringify(items));
+    if (items.length > 1)
+      localStorage.setItem("itemdata", JSON.stringify(items));
     calValue();
   }, [items]);
 
@@ -190,6 +208,10 @@ const App = () => {
               ? "เท่าทุน"
               : `ไม่คุ้ม ${value.toLocaleString()}`}
           </button>
+          <button
+            onClick={setLeftHandler}
+            className={`mx-5 bg-yellow-500 text-white font-bold py-2 px-4 rounded mt-5`}
+          >เซ็ตจำนวนที่เหลือ</button>
         </div>
         <span className="text-md flex justify-center mt-3">
           กดปุ่มเพื่อล้างค่า
