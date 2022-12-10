@@ -55,7 +55,7 @@ const App = () => {
   };
 
   const onClickRemoveData = (index) => {
-    localStorage.removeItem("itemdata");
+    localStorage.removeItem("dataItems");
     const newArray = items.map((item, i) => {
       if (index >= 0) {
         if (i == index) {
@@ -84,7 +84,7 @@ const App = () => {
       }
     });
     setItems(newArray);
-    localStorage.setItem("itemdata", JSON.stringify(items));
+    localStorage.setItem("dataItems", JSON.stringify(items));
   };
 
   const calValue = () => {
@@ -98,7 +98,7 @@ const App = () => {
   };
 
   const setLeftHandler = () => {
-    localStorage.removeItem("itemdata");
+    localStorage.removeItem("dataItems");
     const newArray = items.map((item, i) => {
       return {
         use: 0,
@@ -111,13 +111,15 @@ const App = () => {
       };
     });
     setItems(newArray);
-    localStorage.setItem("itemdata", JSON.stringify(items));
+    localStorage.setItem("dataItems", JSON.stringify(items));
   };
 
   useEffect(() => {
-    const data = JSON.parse(localStorage.getItem("itemdata"));
+	localStorage.removeItem("itemdata");
+	localStorage.removeItem("data");
+    const data = JSON.parse(localStorage.getItem("dataItems"));
     if (!data) {
-      localStorage.setItem("itemdata", JSON.stringify(INITIAILZE));
+      localStorage.setItem("dataItems", JSON.stringify(INITIAILZE));
       window.location.reload(false);
     }
     setItems(data);
@@ -125,7 +127,7 @@ const App = () => {
 
   useEffect(() => {
     if (items.length > 1)
-      localStorage.setItem("itemdata", JSON.stringify(items));
+      localStorage.setItem("dataItems", JSON.stringify(items));
     calValue();
   }, [items]);
 

@@ -1,12 +1,12 @@
-import sulfur from "./assets/rust/sulfur.png";
-import rocket from "./assets/rust/ammo.rocket.basic.png";
-import ammoExplosive from "./assets/rust/ammo.rifle.explosive.png";
-import rocketHV from "./assets/rust/ammo.rocket.hv.png";
-import satchel from "./assets/rust/explosive.satchel.png";
-import c4 from "./assets/rust/explosive.timed.png";
-import explosives from "./assets/rust/explosives.png";
-import beancan from "./assets/rust/grenade.beancan.png";
-import gunpowder from "./assets/rust/gunpowder.png";
+import sulfur from "./assets/rust/sulfur.webp";
+import rocket from "./assets/rust/ammo.rocket.basic.webp";
+import ammoExplosive from "./assets/rust/ammo.rifle.explosive.webp";
+import rocketHV from "./assets/rust/ammo.rocket.hv.webp";
+import satchel from "./assets/rust/explosive.satchel.webp";
+import c4 from "./assets/rust/explosive.timed.webp";
+import explosives from "./assets/rust/explosives.webp";
+import beancan from "./assets/rust/grenade.beancan.webp";
+import gunpowder from "./assets/rust/gunpowder.webp";
 
 export const data = [
   {
