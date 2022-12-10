@@ -1,89 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
-import sulfur from "./assets/rust/sulfur.png";
-import rocket from "./assets/rust/ammo.rocket.basic.png";
-import ammoExplosive from "./assets/rust/ammo.rifle.explosive.png";
-import rocketHV from "./assets/rust/ammo.rocket.hv.png";
-import satchel from "./assets/rust/explosive.satchel.png";
-import c4 from "./assets/rust/explosive.timed.png";
-import explosives from "./assets/rust/explosives.png";
-import beancan from "./assets/rust/grenade.beancan.png";
-import gunpowder from "./assets/rust/gunpowder.png";
 import Nav from "./components/Nav";
+import { data } from "./data";
 
-const INITIAILZE = [
-  {
-    use: 0,
-    receive: 0,
-    title: "Rocket",
-    pic: rocket,
-    multiplier: 700,
-    available: 0,
-  },
-  {
-    use: 0,
-    receive: 0,
-    title: "Timed Explosive Charge(C4)",
-    pic: c4,
-    multiplier: 1100,
-    available: 0,
-  },
-  {
-    use: 0,
-    receive: 0,
-    title: "Explosive 5.56 Rifle Ammo",
-    pic: ammoExplosive,
-    multiplier: 12.5,
-    available: 0,
-  },
-  {
-    use: 0,
-    receive: 0,
-    title: "Beancan Grenade",
-    pic: beancan,
-    multiplier: 90,
-    available: 0,
-  },
-  {
-    use: 0,
-    receive: 0,
-    title: "Sulfur",
-    pic: sulfur,
-    multiplier: 0.5,
-    available: 0,
-  },
-  {
-    use: 0,
-    receive: 0,
-    title: "Gun Powder",
-    pic: gunpowder,
-    multiplier: 1,
-    available: 0,
-  },
-  {
-    use: 0,
-    receive: 0,
-    title: "Satchel Charge",
-    pic: satchel,
-    multiplier: 240,
-    available: 0,
-  },
-  {
-    use: 0,
-    receive: 0,
-    title: "High Velocity Rocket",
-    pic: rocketHV,
-    multiplier: 100,
-    available: 0,
-  },
-  {
-    use: 0,
-    receive: 0,
-    title: "Explosives",
-    pic: explosives,
-    multiplier: 55,
-    available: 0,
-  },
-];
+const INITIAILZE = data;
 const App = () => {
   const [items, setItems] = useState([]);
   const [total, setTotal] = useState({ u: 0, r: 0 });
@@ -114,9 +33,11 @@ const App = () => {
   const updateState = (index, j) => (e) => {
     const newArray = items.map((item, i) => {
       if (index === i && j === "use") {
+        let use = Math.abs(parseInt(e.target.value ? e.target.value : 0));
         return {
           ...item,
-          use: Math.abs(parseInt(e.target.value ? e.target.value : 0)),
+          use: use,
+          left: item.available - use,
         };
       } else if (index === i && j === "receive") {
         return {
@@ -124,16 +45,18 @@ const App = () => {
           receive: Math.abs(parseInt(e.target.value ? e.target.value : 0)),
         };
       } else if (index === i && j === "available") {
+        let available = Math.abs(parseInt(e.target.value ? e.target.value : 0));
         return {
           ...item,
-          available: Math.abs(parseInt(e.target.value ? e.target.value : 0)),
+          available: available,
+          use: available - item.left,
         };
-      } else if (index === i && j === "all") {
+      } else if (index === i && j === "left") {
+        let left = Math.abs(parseInt(e.target.value ? e.target.value : 0));
         return {
           ...item,
-          available: 0,
-          receive: 0,
-          use: 0,
+          left: left,
+          use: item.available - left,
         };
       } else {
         return item;
@@ -145,14 +68,15 @@ const App = () => {
   const onClickRemoveData = () => {
     localStorage.removeItem("data");
     const newArray = items.map((item, i) => {
-		return {
-			use: 0,
-			receive: 0,
-			available: 0,
-			title: item.title,
-			pic: item.pic,
-			multiplier: item.multiplier,
-		}
+      return {
+        use: 0,
+        receive: 0,
+        available: 0,
+        title: item.title,
+        pic: item.pic,
+        multiplier: item.multiplier,
+        left: 0,
+      };
     });
     setItems(newArray);
     localStorage.setItem("data", JSON.stringify(items));
@@ -195,11 +119,9 @@ const App = () => {
       <div className="sm:container mx-auto my-3 block text-gray-500 font-bold col-start-auto">
         <ul className="grid grid-cols-6 items-center w-12/12 my-3">
           <li className="text-center">จำนวนที่มี</li>
+          <li className="text-start">จำนวนที่เหลือ</li>
           <li className="text-start">ชื่อ</li>
-          <li className="text-center flex">
-            <p className="mx-5">รูป</p>
-            <p>จำนวนที่เหลือ</p>
-          </li>
+          <li className="text-start">รูป</li>
           <li className="text-center">จำนวนที่ใช้</li>
           <li className="text-center">จำนวนที่ได้คืน</li>
         </ul>
@@ -221,6 +143,15 @@ const App = () => {
                 value={item.available}
                 onChange={updateState(index, "available")}
               />
+
+              <input
+                className="shadow appearance-none border rounded w-auto py-3 m-4 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                defaultValue={item.left}
+                type="number"
+                value={item.left}
+                onChange={updateState(index, "left")}
+              />
+
               <label className="block text-gray-500 font-bold col-start-auto">
                 {item.title}
               </label>
@@ -230,7 +161,6 @@ const App = () => {
                   src={item.pic}
                   alt={item.title}
                 />
-                <p className="ml-3">เหลือ = {item.available - item.use}</p>
               </div>
               <input
                 className="col-span-auto shadow appearance-none border rounded w-auto py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
