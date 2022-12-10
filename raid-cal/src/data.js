@@ -41,7 +41,7 @@ export const data = [
     receive: 0,
     title: "Beancan Grenade",
     pic: beancan,
-    multiplier: 90,
+    multiplier: 60,
     available: 0,
     left: 0,
   },
