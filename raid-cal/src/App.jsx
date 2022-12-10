@@ -124,7 +124,7 @@ const App = () => {
       </div>
 
       <div className="sm:container mx-auto my-3 block text-gray-500 font-bold col-start-auto">
-        <ul className="grid grid-cols-6 items-center w-12/12 my-3">
+        <ul className="grid grid-cols-6 items-center w-12/12">
           <li className="text-center">จำนวนที่มี</li>
           <li className="text-start">จำนวนที่เหลือ</li>
           <li className="text-start">ชื่อ</li>
@@ -144,7 +144,7 @@ const App = () => {
           >
             <div className="grid grid-cols-6 items-center">
               <input
-                className="shadow appearance-none border rounded w-auto py-3 m-4 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="shadow appearance-none border rounded w-auto py-2 m-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 defaultValue={item.available}
                 type="number"
                 value={item.available}
@@ -152,7 +152,7 @@ const App = () => {
               />
 
               <input
-                className="shadow appearance-none border rounded w-auto py-3 m-4 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="shadow appearance-none border rounded w-auto py-2 m-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 defaultValue={item.left}
                 type="number"
                 value={item.left}
@@ -164,13 +164,13 @@ const App = () => {
               </label>
               <div className="flex items-center">
                 <img
-                  className="max-w-[65px] mx-2 col-span-auto"
+                  className="max-w-[75px] mx-2 col-span-auto"
                   src={item.pic}
                   alt={item.title}
                 />
               </div>
               <input
-                className="col-span-auto shadow appearance-none border rounded w-auto py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="col-span-auto shadow appearance-none border rounded w-auto py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 defaultValue={item.use}
                 type="number"
                 value={item.use}
@@ -178,7 +178,7 @@ const App = () => {
               />
 
               <input
-                className="shadow col-end-auto appearance-none border rounded w-auto py-3 m-4 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="shadow col-end-auto appearance-none border rounded w-auto py-2 m-4 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 defaultValue={item.receive}
                 type="number"
                 value={item.receive}
