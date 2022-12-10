@@ -210,7 +210,7 @@ const App = () => {
           </button>
           <button
             onClick={setLeftHandler}
-            className={`mx-5 bg-yellow-500 text-white font-bold py-2 px-4 rounded mt-5`}
+            className={`mx-5 bg-blue-500 text-white font-bold py-2 px-4 rounded mt-5`}
           >เซ็ตจำนวนที่เหลือ</button>
         </div>
         <span className="text-md flex justify-center mt-3">
