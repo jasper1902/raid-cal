@@ -87,7 +87,7 @@ const App = () => {
       return {
         use: 0,
         receive: 0,
-        available: item.left,
+        available: item.left + item.receive,
         title: item.title,
         pic: item.pic,
         multiplier: item.multiplier,
