@@ -167,7 +167,7 @@ const App = () => {
                   x
                 </p>
                 <input
-                  className="shadow appearance-none border rounded w-auto py-2 m-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="shadow appearance-none border rounded w-auto py-3 m-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   defaultValue={item.available}
                   type="number"
                   value={item.available}
@@ -176,7 +176,7 @@ const App = () => {
               </div>
 
               <input
-                className="shadow appearance-none border rounded w-auto py-2 m-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="shadow appearance-none border rounded w-auto py-3 m-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 defaultValue={item.left}
                 type="number"
                 value={item.left}
@@ -194,7 +194,7 @@ const App = () => {
                 />
               </div>
               <input
-                className="col-span-auto shadow appearance-none border rounded w-auto py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="col-span-auto shadow appearance-none border rounded w-auto py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 defaultValue={item.use}
                 type="number"
                 value={item.use}
@@ -202,7 +202,7 @@ const App = () => {
               />
 
               <input
-                className="shadow col-end-auto appearance-none border rounded w-auto py-2 m-4 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="shadow col-end-auto appearance-none border rounded w-auto py-3 m-4 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 defaultValue={item.receive}
                 type="number"
                 value={item.receive}
