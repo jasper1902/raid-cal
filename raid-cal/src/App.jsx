@@ -22,7 +22,7 @@ const App = () => {
   const updateState = (index, j) => (e) => {
     const newArray = items.map((item, i) => {
       if (index === i && j === "use") {
-        let use = Math.abs(parseInt(e.target.value ? e.target.value : 0));
+        let use = (parseInt(e.target.value ? e.target.value : 0));
         return {
           ...item,
           use: use,
@@ -31,17 +31,17 @@ const App = () => {
       } else if (index === i && j === "receive") {
         return {
           ...item,
-          receive: Math.abs(parseInt(e.target.value ? e.target.value : 0)),
+          receive: (parseInt(e.target.value ? e.target.value : 0)),
         };
       } else if (index === i && j === "available") {
-        let available = Math.abs(parseInt(e.target.value ? e.target.value : 0));
+        let available = (parseInt(e.target.value ? e.target.value : 0));
         return {
           ...item,
           available: available,
           use: available - item.left,
         };
       } else if (index === i && j === "left") {
-        let left = Math.abs(parseInt(e.target.value ? e.target.value : 0));
+        let left = (parseInt(e.target.value ? e.target.value : 0));
         return {
           ...item,
           left: left,
