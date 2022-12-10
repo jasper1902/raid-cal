@@ -115,8 +115,8 @@ const App = () => {
   };
 
   useEffect(() => {
-	localStorage.removeItem("itemdata");
-	localStorage.removeItem("data");
+    localStorage.removeItem("itemdata");
+    localStorage.removeItem("data");
     const data = JSON.parse(localStorage.getItem("dataItems"));
     if (!data) {
       localStorage.setItem("dataItems", JSON.stringify(INITIAILZE));
@@ -190,6 +190,8 @@ const App = () => {
               </label>
               <div className="flex items-center">
                 <img
+                  width="75px"
+                  height="75px"
                   className="max-w-[75px] mx-2 col-span-auto"
                   src={item.pic}
                   alt={item.title}
