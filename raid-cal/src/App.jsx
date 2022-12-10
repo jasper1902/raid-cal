@@ -58,30 +58,30 @@ const App = () => {
     localStorage.removeItem("itemdata");
     const newArray = items.map((item, i) => {
       if (index >= 0) {
-		if (i == index) {
-			return {
-			  use: item.use,
-			  receive: item.receive,
-			  available: 0,
-			  title: item.title,
-			  pic: item.pic,
-			  multiplier: item.multiplier,
-			  left: item.left,
-			};
-		  } else {
-			return item;
-		  }
-	  } else {
-		return {
-			use: 0,
-			receive: 0,
-			available: 0,
-			title: item.title,
-			pic: item.pic,
-			multiplier: item.multiplier,
-			left: 0,
-		  };
-	  }
+        if (i == index) {
+          return {
+            use: item.use,
+            receive: item.receive,
+            available: 0,
+            title: item.title,
+            pic: item.pic,
+            multiplier: item.multiplier,
+            left: item.left,
+          };
+        } else {
+          return item;
+        }
+      } else {
+        return {
+          use: 0,
+          receive: 0,
+          available: 0,
+          title: item.title,
+          pic: item.pic,
+          multiplier: item.multiplier,
+          left: 0,
+        };
+      }
     });
     setItems(newArray);
     localStorage.setItem("itemdata", JSON.stringify(items));
@@ -160,7 +160,12 @@ const App = () => {
           >
             <div className="grid grid-cols-6 items-center">
               <div className="flex items-center">
-                <p onClick={() => onClickRemoveData(index)} className="cursor-pointer">x</p>
+                <p
+                  onClick={() => onClickRemoveData(index)}
+                  className="cursor-pointer"
+                >
+                  x
+                </p>
                 <input
                   className="shadow appearance-none border rounded w-auto py-2 m-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   defaultValue={item.available}
@@ -207,32 +212,32 @@ const App = () => {
           </div>
         ))}
         <div className="text-center font-bold text-5xl">
-          <div className="flex justify-around">
+          <div className="flex justify-around items-center">
             <p>ใช้ไป {total.u.toLocaleString()}</p>
+            <button
+              onClick={() => onClickRemoveData(-1)}
+              className={`${
+                value > 0
+                  ? "bg-green-500"
+                  : value == 0
+                  ? "bg-yellow-500"
+                  : "bg-red-500"
+              } text-white font-bold py-2 px-4 rounded mt-5`}
+            >
+              {value > 0
+                ? `คุ้ม ${value.toLocaleString()}`
+                : value == 0
+                ? "เท่าทุน"
+                : `ไม่คุ้ม ${value.toLocaleString()}`}
+            </button>
+            <button
+              onClick={setLeftHandler}
+              className={`mx-5 bg-blue-500 text-white font-bold py-2 px-4 rounded mt-5`}
+            >
+              เซ็ตจำนวนที่เหลือ
+            </button>
             <p>ได้คืน {total.r.toLocaleString()}</p>
           </div>
-          <button
-            onClick={() => onClickRemoveData(-1)}
-            className={`${
-              value > 0
-                ? "bg-green-500"
-                : value == 0
-                ? "bg-yellow-500"
-                : "bg-red-500"
-            } text-white font-bold py-2 px-4 rounded mt-5`}
-          >
-            {value > 0
-              ? `คุ้ม ${value.toLocaleString()}`
-              : value == 0
-              ? "เท่าทุน"
-              : `ไม่คุ้ม ${value.toLocaleString()}`}
-          </button>
-          <button
-            onClick={setLeftHandler}
-            className={`mx-5 bg-blue-500 text-white font-bold py-2 px-4 rounded mt-5`}
-          >
-            เซ็ตจำนวนที่เหลือ
-          </button>
         </div>
         <span className="text-md flex justify-center mt-3">
           กดปุ่มเพื่อล้างค่า
