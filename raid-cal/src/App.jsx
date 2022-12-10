@@ -55,7 +55,7 @@ const App = () => {
   };
 
   const onClickRemoveData = () => {
-    localStorage.removeItem("data");
+    localStorage.removeItem("itemdata");
     const newArray = items.map((item, i) => {
       return {
         use: 0,
@@ -68,7 +68,7 @@ const App = () => {
       };
     });
     setItems(newArray);
-    localStorage.setItem("data", JSON.stringify(items));
+    localStorage.setItem("itemdata", JSON.stringify(items));
   };
 
   const calValue = () => {
@@ -82,16 +82,16 @@ const App = () => {
   };
 
   useEffect(() => {
-    const data = JSON.parse(localStorage.getItem("data"));
+    const data = JSON.parse(localStorage.getItem("itemdata"));
     if (!data) {
-      localStorage.setItem("data", JSON.stringify(INITIAILZE));
+      localStorage.setItem("itemdata", JSON.stringify(INITIAILZE));
       window.location.reload(false);
     }
     setItems(data);
   }, []);
 
   useEffect(() => {
-    if (items.length > 1) localStorage.setItem("data", JSON.stringify(items));
+    if (items.length > 1) localStorage.setItem("itemdata", JSON.stringify(items));
     calValue();
   }, [items]);
 
