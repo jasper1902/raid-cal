@@ -10,23 +10,12 @@ const App = () => {
   const dragItem = useRef(null);
   const dragOverItem = useRef(null);
 
-  //const handle drag sorting
   const handleSort = () => {
-    //duplicate items
     let _items = [...items];
-    console.log(_items);
-
-    //remove and save the dragged item content
     const draggedItemContent = _items.splice(dragItem.current, 1)[0];
-
-    //switch the position
     _items.splice(dragOverItem.current, 0, draggedItemContent);
-
-    //reset the position ref
     dragItem.current = null;
     dragOverItem.current = null;
-
-    //update the actual array
     setItems(_items);
   };
 
