@@ -223,34 +223,41 @@ const App = () => {
         <div className="text-center font-bold text-5xl">
           <div className="flex justify-around items-center">
             <p>ใช้ไป {total.u.toLocaleString()}</p>
-            <button
-              onClick={() => onClickRemoveData(-1)}
-              className={`${
-                value > 0
-                  ? "bg-green-500"
+            <div>
+              <button
+                onClick={() => onClickRemoveData(-1)}
+                className={`${
+                  value > 0
+                    ? "bg-green-500"
+                    : value == 0
+                    ? "bg-yellow-500"
+                    : "bg-red-500"
+                } text-white font-bold py-2 px-4 rounded mt-5`}
+              >
+                {value > 0
+                  ? `คุ้ม ${value.toLocaleString()}`
                   : value == 0
-                  ? "bg-yellow-500"
-                  : "bg-red-500"
-              } text-white font-bold py-2 px-4 rounded mt-5`}
-            >
-              {value > 0
-                ? `คุ้ม ${value.toLocaleString()}`
-                : value == 0
-                ? "เท่าทุน"
-                : `ไม่คุ้ม ${value.toLocaleString()}`}
-            </button>
-            <button
-              onClick={setLeftHandler}
-              className={`mx-5 bg-blue-500 text-white font-bold py-2 px-4 rounded mt-5`}
-            >
-              เซ็ตจำนวนที่เหลือ
-            </button>
+                  ? "เท่าทุน"
+                  : `ไม่คุ้ม ${value.toLocaleString()}`}
+              </button>
+              <span className="text-md flex justify-center mt-3 text-sm">
+                กดปุ่มเพื่อล้างค่า
+              </span>
+            </div>
+            <div>
+              <button
+                onClick={setLeftHandler}
+                className={`mx-5 bg-blue-500 text-white font-bold py-2 px-4 rounded mt-5`}
+              >
+                เซ็ตจำนวนที่เหลือ
+              </button>
+			  <span className="text-md flex justify-center mt-3 text-sm">
+                จำนวนที่มี = จำนวนที่เหลือ+จำนวนที่ได้คืน
+              </span>
+            </div>
             <p>ได้คืน {total.r.toLocaleString()}</p>
           </div>
         </div>
-        <span className="text-md flex justify-center mt-3">
-          กดปุ่มเพื่อล้างค่า
-        </span>
       </div>
     </>
   );
