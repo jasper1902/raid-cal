@@ -152,15 +152,8 @@ const App = () => {
         </ul>
 
         {items.map((item, index) => (
-          <div
-            key={index}
-            onDragStart={(e) => (dragItem.current = index)}
-            onDragEnter={(e) => (dragOverItem.current = index)}
-            onDragEnd={handleSort}
-            onDragOver={(e) => e.preventDefault()}
-            draggable
-          >
-            <div className="grid grid-cols-6 items-center cursor-move">
+          <div key={index}>
+            <div className="grid grid-cols-6 items-center">
               <div className="flex items-center">
                 <p
                   onClick={() => onClickRemoveData(index)}
@@ -185,11 +178,23 @@ const App = () => {
                 onChange={updateState(index, "left")}
               />
 
-              <label className="block text-gray-500 font-bold col-start-auto cursor-move">
+              <label
+                onDragStart={(e) => (dragItem.current = index)}
+                onDragEnter={(e) => (dragOverItem.current = index)}
+                onDragEnd={handleSort}
+                onDragOver={(e) => e.preventDefault()}
+                draggable
+                className="block text-gray-500 font-bold col-start-auto cursor-move"
+              >
                 {item.title}
               </label>
-              <div className="flex items-center">
+              <div className="flex items-center cursor-move">
                 <img
+                  onDragStart={(e) => (dragItem.current = index)}
+                  onDragEnter={(e) => (dragOverItem.current = index)}
+                  onDragEnd={handleSort}
+                  onDragOver={(e) => e.preventDefault()}
+                  draggable
                   width="75px"
                   height="75px"
                   className="max-w-[75px] mx-2 col-span-auto"
