@@ -1,5 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
 import Nav from "./components/Nav";
+import Item from "./components/Item";
+import Display from "./components/Display";
+import Headbar from "./components/Headbar";
 import { data } from "./data";
 
 const INITIAILZE = data;
@@ -17,42 +20,6 @@ const App = () => {
     dragItem.current = null;
     dragOverItem.current = null;
     setItems(_items);
-  };
-
-  const updateState = (index, j) => (e) => {
-    const newArray = items.map((item, i) => {
-      if (index === i && j === "use") {
-        let use = parseInt(e.target.value ? e.target.value : 0);
-        return {
-          ...item,
-          use: use,
-          left: item.available - use,
-        };
-      } else if (index === i && j === "receive") {
-        return {
-          ...item,
-          receive: parseInt(e.target.value ? e.target.value : 0),
-        };
-      } else if (index === i && j === "available") {
-        let available = parseInt(e.target.value ? e.target.value : 0);
-        return {
-          ...item,
-          available: available,
-          //   use: available - item.left,
-          left: available,
-        };
-      } else if (index === i && j === "left") {
-        let left = parseInt(e.target.value ? e.target.value : 0);
-        return {
-          ...item,
-          left: left,
-          use: item.available - left,
-        };
-      } else {
-        return item;
-      }
-    });
-    setItems(newArray);
   };
 
   const onClickRemoveData = (index) => {
@@ -99,27 +66,6 @@ const App = () => {
     setTotal({ u: calu, r: calr });
   };
 
-  const setLeftHandler = () => {
-    localStorage.removeItem("dataItems");
-    const newArray = items.map((item, i) => {
-      return {
-        use: 0,
-        receive: 0,
-        available: ["Sulfur", "Explosives", "Gun Powder"].includes(item.title)
-          ? 0
-          : item.left + item.receive,
-        title: item.title,
-        pic: item.pic,
-        multiplier: item.multiplier,
-        left: ["Sulfur", "Explosives", "Gun Powder"].includes(item.title)
-          ? 0
-          : item.left + item.receive,
-      };
-    });
-    setItems(newArray);
-    localStorage.setItem("dataItems", JSON.stringify(items));
-  };
-
   useEffect(() => {
     localStorage.removeItem("itemdata");
     localStorage.removeItem("data");
@@ -148,122 +94,27 @@ const App = () => {
       </div>
 
       <div className="sm:container mx-auto my-3 block text-gray-500 font-bold col-start-auto">
-        <ul className="grid grid-cols-6 items-center w-12/12">
-          <li className="text-center">จำนวนที่มี</li>
-          <li className="text-start">จำนวนที่เหลือ</li>
-          <li className="text-start">ชื่อ</li>
-          <li className="text-start">รูป</li>
-          <li className="text-center">จำนวนที่ใช้</li>
-          <li className="text-center">จำนวนที่ได้คืน</li>
-        </ul>
-
+        <Headbar />
         {items.map((item, index) => (
-          <div key={index}>
-            <div className="grid grid-cols-6 items-center">
-              <div className="flex items-center">
-                <p
-                  onClick={() => onClickRemoveData(index)}
-                  className="cursor-pointer"
-                >
-                  x
-                </p>
-                <input
-                  className="shadow appearance-none border rounded w-auto py-3 m-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  defaultValue={item.available}
-                  type="number"
-                  value={item.available}
-                  onChange={updateState(index, "available")}
-                />
-              </div>
-
-              <input
-                className="shadow appearance-none border rounded w-auto py-3 m-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                defaultValue={item.left}
-                type="number"
-                value={item.left}
-                onChange={updateState(index, "left")}
-              />
-
-              <label
-                onDragStart={(e) => (dragItem.current = index)}
-                onDragEnter={(e) => (dragOverItem.current = index)}
-                onDragEnd={handleSort}
-                onDragOver={(e) => e.preventDefault()}
-                draggable
-                className="block text-gray-500 font-bold col-start-auto cursor-move"
-              >
-                {item.title}
-              </label>
-              <div className="flex items-center cursor-move">
-                <img
-                  onDragStart={(e) => (dragItem.current = index)}
-                  onDragEnter={(e) => (dragOverItem.current = index)}
-                  onDragEnd={handleSort}
-                  onDragOver={(e) => e.preventDefault()}
-                  draggable
-                  width="75px"
-                  height="75px"
-                  className="max-w-[75px] mx-2 col-span-auto"
-                  src={item.pic}
-                  alt={item.title}
-                />
-              </div>
-              <input
-                className="col-span-auto shadow appearance-none border rounded w-auto py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                defaultValue={item.use}
-                type="number"
-                value={item.use}
-                onChange={updateState(index, "use")}
-              />
-
-              <input
-                className="shadow col-end-auto appearance-none border rounded w-auto py-3 m-4 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                defaultValue={item.receive}
-                type="number"
-                value={item.receive}
-                onChange={updateState(index, "receive")}
-              />
-            </div>
-          </div>
+          <Item
+            item={item}
+            items={items}
+            setItems={setItems}
+            index={index}
+            onClickRemoveData={onClickRemoveData}
+            key={index}
+            dragItem={dragItem}
+            dragOverItem={dragOverItem}
+            handleSort={handleSort}
+          />
         ))}
-        <div className="text-center font-bold text-5xl">
-          <div className="flex justify-around items-center">
-            <p>ใช้ไป {total.u.toLocaleString()}</p>
-            <div>
-              <button
-                onClick={() => onClickRemoveData(-1)}
-                className={`${
-                  value > 0
-                    ? "bg-green-500"
-                    : value == 0
-                    ? "bg-yellow-500"
-                    : "bg-red-500"
-                } text-white font-bold py-2 px-4 rounded mt-5`}
-              >
-                {value > 0
-                  ? `คุ้ม ${value.toLocaleString()}`
-                  : value == 0
-                  ? "เท่าทุน"
-                  : `ไม่คุ้ม ${value.toLocaleString()}`}
-              </button>
-              <span className="text-md flex justify-center mt-3 text-sm">
-                กดปุ่มเพื่อล้างค่า
-              </span>
-            </div>
-            <div>
-              <button
-                onClick={setLeftHandler}
-                className={`mx-5 bg-blue-500 text-white font-bold py-2 px-4 rounded mt-5`}
-              >
-                เซ็ตจำนวนที่เหลือ
-              </button>
-              <span className="text-md flex justify-center mt-3 text-sm">
-                จำนวนที่มี = จำนวนที่เหลือ+จำนวนที่ได้คืน
-              </span>
-            </div>
-            <p>ได้คืน {total.r.toLocaleString()}</p>
-          </div>
-        </div>
+        <Display
+          items={items}
+          setItems={setItems}
+          value={value}
+          onClickRemoveData={onClickRemoveData}
+          total={total}
+        />
       </div>
     </>
   );
