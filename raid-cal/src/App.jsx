@@ -61,13 +61,13 @@ const App = () => {
       if (index >= 0) {
         if (i == index) {
           return {
-            use: item.use,
-            receive: item.receive,
+            use: 0,
+            receive: 0,
             available: 0,
             title: item.title,
             pic: item.pic,
             multiplier: item.multiplier,
-            left: item.left,
+            left: 0,
           };
         } else {
           return item;
