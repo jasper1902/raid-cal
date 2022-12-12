@@ -38,7 +38,8 @@ const App = () => {
         return {
           ...item,
           available: available,
-          use: available - item.left,
+          //   use: available - item.left,
+          left: available,
         };
       } else if (index === i && j === "left") {
         let left = parseInt(e.target.value ? e.target.value : 0);
@@ -85,6 +86,7 @@ const App = () => {
     });
     setItems(newArray);
     localStorage.setItem("dataItems", JSON.stringify(items));
+    calValue();
   };
 
   const calValue = () => {
@@ -103,11 +105,15 @@ const App = () => {
       return {
         use: 0,
         receive: 0,
-        available: item.left + item.receive,
+        available: ["Sulfur", "Explosives", "Gun Powder"].includes(item.title)
+          ? 0
+          : item.left + item.receive,
         title: item.title,
         pic: item.pic,
         multiplier: item.multiplier,
-        left: 0,
+        left: ["Sulfur", "Explosives", "Gun Powder"].includes(item.title)
+          ? 0
+          : item.left + item.receive,
       };
     });
     setItems(newArray);
@@ -251,7 +257,7 @@ const App = () => {
               >
                 เซ็ตจำนวนที่เหลือ
               </button>
-			  <span className="text-md flex justify-center mt-3 text-sm">
+              <span className="text-md flex justify-center mt-3 text-sm">
                 จำนวนที่มี = จำนวนที่เหลือ+จำนวนที่ได้คืน
               </span>
             </div>
