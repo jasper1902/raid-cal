@@ -82,13 +82,15 @@ const Item = ({
         >
           {item.title}
         </label>
-        <div className="flex items-center cursor-move">
+        <div
+          className="flex items-center cursor-move"
+          onDragStart={(e) => (dragItem.current = index)}
+          onDragEnter={(e) => (dragOverItem.current = index)}
+          onDragEnd={handleSort}
+          onDragOver={(e) => e.preventDefault()}
+          draggable
+        >
           <img
-            onDragStart={(e) => (dragItem.current = index)}
-            onDragEnter={(e) => (dragOverItem.current = index)}
-            onDragEnd={handleSort}
-            onDragOver={(e) => e.preventDefault()}
-            draggable
             width="75px"
             height="75px"
             className="max-w-[75px] mx-2 col-span-auto"
