@@ -30,11 +30,11 @@ const Display = ({ items, setItems, value, onClickRemoveData, total }) => {
             onClick={() => onClickRemoveData(-1)}
             className={`${
               value > 0
-                ? "bg-green-500"
+                ? "bg-green-500 hover:bg-green-700"
                 : value == 0
-                ? "bg-yellow-500"
-                : "bg-red-500"
-            } text-white font-bold py-2 px-4 rounded mt-5`}
+                ? "bg-yellow-500 hover:bg-yellow-700"
+                : "bg-red-500 hover:bg-red-700"
+            } text-4xl mt-5 p-3 rounded-xl transition-colors duration-50 hover:animate-pulse ease-out text-white font-semibold`}
           >
             {value > 0
               ? `คุ้ม ${value.toLocaleString()}`
@@ -49,7 +49,7 @@ const Display = ({ items, setItems, value, onClickRemoveData, total }) => {
         <div>
           <button
             onClick={setLeftHandler}
-            className={`mx-5 bg-blue-500 text-white font-bold py-2 px-4 rounded mt-5`}
+            className={`text-4xl mt-5 bg-blue-500 p-3 rounded-xl hover:bg-blue-700 transition-colors duration-50 hover:animate-pulse ease-out text-white font-semibold `}
           >
             เซ็ตจำนวนที่เหลือ
           </button>
