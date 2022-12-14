@@ -10,41 +10,28 @@ const Item = ({
   dragOverItem,
   handleSort,
 }) => {
-  const updateState = (index, j) => (e) => {
-    const newArray = items.map((item, i) => {
-      if (index === i && j === "use") {
-        let use = parseInt(e.target.value ? e.target.value : 0);
-        return {
-          ...item,
-          use: use,
-          left: item.available - use,
-        };
-      } else if (index === i && j === "receive") {
-        return {
-          ...item,
-          receive: parseInt(e.target.value ? e.target.value : 0),
-        };
-      } else if (index === i && j === "available") {
-        let available = parseInt(e.target.value ? e.target.value : 0);
-        return {
-          ...item,
-          available: available,
-          //   use: available - item.left,
-          left: available,
-        };
-      } else if (index === i && j === "left") {
-        let left = parseInt(e.target.value ? e.target.value : 0);
-        return {
-          ...item,
-          left: left,
-          use: item.available - left,
-        };
-      } else {
-        return item;
-      }
-    });
-    setItems(newArray);
-  };
+	const updateState = (index, property) => (e) => {
+		const newArray = items.map((item, i) => {
+		  if (index === i) {
+			let value = parseInt(e.target.value ? e.target.value : 0);
+	  
+			// Object that maps property names to the corresponding update logic
+			const updates = {
+			  use: () => ({ ...item, use: value, left: item.available - value }),
+			  receive: () => ({ ...item, receive: value }),
+			  available: () => ({ ...item, available: value, left: value }),
+			  left: () => ({ ...item, left: value, use: item.available - value }),
+			};
+	  
+			// Return the updated item by calling the update function for the specified property
+			return updates[property]();
+		  } else {
+			return item;
+		  }
+		});
+	  
+		setItems(newArray);
+	  };
   return (
     <div>
       <div className="grid grid-cols-6 items-center">

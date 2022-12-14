@@ -3,23 +3,22 @@ import React from "react";
 const Display = ({ items, setItems, value, onClickRemoveData, total }) => {
   const setLeftHandler = () => {
     localStorage.removeItem("dataItems");
-    const newArray = items.map((item, i) => {
+    const newArray = items.map((item) => {
+      const left = ["Sulfur", "Explosives", "Gun Powder"].includes(item.title)
+        ? 0
+        : item.left + item.receive;
       return {
-        use: 0,
-        receive: 0,
-        available: ["Sulfur", "Explosives", "Gun Powder"].includes(item.title)
-          ? 0
-          : item.left + item.receive,
+        available: left,
+        left,
         title: item.title,
         pic: item.pic,
         multiplier: item.multiplier,
-        left: ["Sulfur", "Explosives", "Gun Powder"].includes(item.title)
-          ? 0
-          : item.left + item.receive,
+        use: 0,
+        receive: 0,
       };
     });
     setItems(newArray);
-    localStorage.setItem("dataItems", JSON.stringify(items));
+    localStorage.setItem("dataItems", JSON.stringify(newArray));
   };
   return (
     <div className="text-center font-bold text-5xl">

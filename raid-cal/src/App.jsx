@@ -14,12 +14,15 @@ const App = () => {
   const dragOverItem = useRef(null);
 
   const handleSort = () => {
-    let _items = [...items];
-    const draggedItemContent = _items.splice(dragItem.current, 1)[0];
-    _items.splice(dragOverItem.current, 0, draggedItemContent);
+    const draggedItemContent = items[dragItem.current];
+    const sortedItems = [
+      ...items.slice(0, dragItem.current),
+      ...items.slice(dragItem.current + 1),
+    ];
+    sortedItems.splice(dragOverItem.current, 0, draggedItemContent);
+    setItems(sortedItems);
     dragItem.current = null;
     dragOverItem.current = null;
-    setItems(_items);
   };
 
   const onClickRemoveData = (index) => {
@@ -57,13 +60,12 @@ const App = () => {
   };
 
   const calValue = () => {
-    let calu = 0;
-    let calr = 0;
-    items.forEach((element) => {
-      calu = element.use * element.multiplier + calu;
-      calr = element.receive * element.multiplier + calr;
-    });
-    setTotal({ u: calu, r: calr });
+	let total = { u: 0, r: 0 };
+	items.forEach((element) => {
+	  total.u += element.use * element.multiplier;
+	  total.r += element.receive * element.multiplier;
+	});
+	setTotal(total);
   };
 
   useEffect(() => {
