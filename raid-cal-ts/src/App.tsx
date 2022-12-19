@@ -39,7 +39,7 @@ const App = () => {
   };
 
   const onClickRemoveData = (index: number) => {
-    localStorage.removeItem("dataItems");
+    localStorage.removeItem("items");
     const newArray = items.map((item, i) => {
       if (index >= 0) {
         if (i == index) {
@@ -68,7 +68,7 @@ const App = () => {
       }
     });
     setItems(newArray);
-    localStorage.setItem("dataItems", JSON.stringify(items));
+    localStorage.setItem("items", JSON.stringify(items));
     calValue();
   };
 
@@ -84,11 +84,11 @@ const App = () => {
   };
 
   useEffect(() => {
-    localStorage.removeItem("itemdata");
+    localStorage.removeItem("dataItems");
     localStorage.removeItem("data");
-    const data = JSON.parse(localStorage.getItem("dataItems")!);
+    const data = JSON.parse(localStorage.getItem("items")!);
     if (!data) {
-      localStorage.setItem("dataItems", JSON.stringify(INITIAILZE));
+      localStorage.setItem("items", JSON.stringify(INITIAILZE));
       window.location.reload();
     }
 	setItems(data);
@@ -96,7 +96,7 @@ const App = () => {
 
   useEffect(() => {
     if (items.length > 1)
-      localStorage.setItem("dataItems", JSON.stringify(items));
+      localStorage.setItem("items", JSON.stringify(items));
     calValue();
   }, [items]);
 

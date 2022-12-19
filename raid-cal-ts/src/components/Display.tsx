@@ -35,10 +35,11 @@ const Display = ({
     localStorage.setItem("dataItems", JSON.stringify(newArray));
   };
   return (
-    <div className="text-center font-bold text-5xl">
+    <div className="text-center font-bold lg:text-5xl sm:text-xl">
       <div className="flex justify-around items-center">
         <p>ใช้ไป {total.u.toLocaleString()}</p>
-        <div>
+
+        <div className="flex items-center flex-col">
           <button
             onClick={() => onClickRemoveData(-1)}
             className={`${
@@ -47,7 +48,7 @@ const Display = ({
                 : value == 0
                 ? "bg-yellow-500 hover:bg-yellow-700"
                 : "bg-red-500 hover:bg-red-700"
-            } text-4xl mt-5 p-3 rounded-xl transition-colors duration-50 hover:animate-pulse ease-out text-white font-semibold`}
+            } p-3 rounded-xl transition-colors duration-50 hover:animate-pulse ease-out text-white font-semibold`}
           >
             {value > 0
               ? `คุ้ม ${value.toLocaleString()}`
@@ -59,10 +60,11 @@ const Display = ({
             กดปุ่มเพื่อล้างค่า
           </span>
         </div>
-        <div>
+		
+        <div className="flex items-center flex-col">
           <button
             onClick={setLeftHandler}
-            className={`text-4xl mt-5 bg-blue-500 p-3 rounded-xl hover:bg-blue-700 transition-colors duration-50 hover:animate-pulse ease-out text-white font-semibold `}
+            className={`bg-blue-500 hover:bg-blue-700 p-3 rounded-xl transition-colors duration-50 hover:animate-pulse ease-out text-white font-semibold`}
           >
             เซ็ตจำนวนที่เหลือ
           </button>
@@ -70,6 +72,7 @@ const Display = ({
             จำนวนที่มี = จำนวนที่เหลือ+จำนวนที่ได้คืน
           </span>
         </div>
+
         <p>ได้คืน {total.r.toLocaleString()}</p>
       </div>
     </div>
