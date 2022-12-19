@@ -1,6 +1,20 @@
-import React from "react";
+import { ItemType, totalType } from "../App";
 
-const Display = ({ items, setItems, value, onClickRemoveData, total }) => {
+type Props = {
+  value: number;
+  total: totalType;
+  items: ItemType;
+  setItems: (item: ItemType) => void;
+  onClickRemoveData: (index: number) => void;
+};
+
+const Display = ({
+  items,
+  setItems,
+  value,
+  onClickRemoveData,
+  total,
+}: Props) => {
   const setLeftHandler = () => {
     localStorage.removeItem("dataItems");
     const newArray = items.map((item) => {

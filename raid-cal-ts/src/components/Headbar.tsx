@@ -1,5 +1,3 @@
-import React from "react";
-
 const Headbar = () => {
   return (
     <ul className="grid grid-cols-6 items-center w-12/12">

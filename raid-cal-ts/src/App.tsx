@@ -1,17 +1,30 @@
-import React, { useEffect, useState, useRef } from "react";
-import Nav from "./components/Nav";
+import { useEffect, useState, useRef } from "react";
 import Item from "./components/Item";
 import Display from "./components/Display";
 import Headbar from "./components/Headbar";
+import Nav from "./components/Nav";
 import { data } from "./data";
 
-const INITIAILZE = data;
+export type totalType = {
+  u: number;
+  r: number;
+};
+export type ItemType = {
+  use: number;
+  receive: number;
+  available: number;
+  title: string;
+  pic: string;
+  multiplier: number;
+  left: number;
+}[];
+const INITIAILZE: ItemType = data;
 const App = () => {
-  const [items, setItems] = useState([]);
-  const [total, setTotal] = useState({ u: 0, r: 0 });
+  const [items, setItems] = useState<ItemType>([]);
+  const [total, setTotal] = useState<totalType>({ u: 0, r: 0 });
 
-  const dragItem = useRef(null);
-  const dragOverItem = useRef(null);
+  const dragItem = useRef<any>();
+  const dragOverItem = useRef<any>();
 
   const handleSort = () => {
     const draggedItemContent = items[dragItem.current];
@@ -25,7 +38,7 @@ const App = () => {
     dragOverItem.current = null;
   };
 
-  const onClickRemoveData = (index) => {
+  const onClickRemoveData = (index: number) => {
     localStorage.removeItem("dataItems");
     const newArray = items.map((item, i) => {
       if (index >= 0) {
@@ -60,23 +73,25 @@ const App = () => {
   };
 
   const calValue = () => {
-	let total = { u: 0, r: 0 };
-	items.forEach((element) => {
-	  total.u += element.use * element.multiplier;
-	  total.r += element.receive * element.multiplier;
-	});
-	setTotal(total);
+    let total: totalType = { u: 0, r: 0 };
+    items.forEach(
+      (element: { use: number; receive: number; multiplier: number }) => {
+        total.u += element.use * element.multiplier;
+        total.r += element.receive * element.multiplier;
+      }
+    );
+    setTotal(total);
   };
 
   useEffect(() => {
     localStorage.removeItem("itemdata");
     localStorage.removeItem("data");
-    const data = JSON.parse(localStorage.getItem("dataItems"));
+    const data = JSON.parse(localStorage.getItem("dataItems")!);
     if (!data) {
       localStorage.setItem("dataItems", JSON.stringify(INITIAILZE));
-      window.location.reload(false);
+      window.location.reload();
     }
-    setItems(data);
+	setItems(data);
   }, []);
 
   useEffect(() => {
@@ -85,7 +100,7 @@ const App = () => {
     calValue();
   }, [items]);
 
-  const value = total.r - total.u;
+  const value: number = total.r - total.u;
 
   return (
     <>
